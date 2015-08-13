@@ -22,6 +22,7 @@ int curr_id=1;
 int noh,nom,miss;
 std::string sip,hit,misses,flags,packets,dip,sip1,dip1,mq0;
 int tot_flows,ch1,ch2;
+//code for connecting to local mysql database
 const char *server = "localhost";
   const char *user = "root";
    const char *password = "letmein"; /* set me first */
@@ -34,6 +35,19 @@ const char *server = "localhost";
          user, password, database, 0, NULL, 0))
  {
      fprintf(stderr, "%s\n", mysql_error(conn));
+ }
+ // code for connecting to cryptDB's server and encrypted database
+ const char *server = "127.0.0.1"; 
+const char *user = "root";
+const char *password = "letmein"; 
+unsigned int port=3307;
+//change the database name
+const char *database = "TRW_crypt";
+conn = mysql_init(NULL);
+/* Connect to database */
+if (!mysql_real_connect(conn, server,user, password, database, port, NULL, CLIENT_MULTI_STATEMENTS))
+ {
+ fprintf(stderr, "%s\n", mysql_error(conn));
  }
 mysql_query(conn,"drop table if exists ipset;");
 mysql_query(conn,"create table ipset(ip varchar(25));");
